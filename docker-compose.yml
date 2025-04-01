@@ -1,0 +1,22 @@
+services:
+  my-acs:
+    image: alfresco-content-services-my:development
+    build:
+      dockerfile: ./Dockerfile
+      context: ../../../my-platform-docker/target
+    environment:
+      JAVA_TOOL_OPTIONS: "${keystore.settings}"
+      JAVA_OPTS: "
+        -D...
+        "
+      CATALINA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:8888 -XX:+AllowEnhancedClassRedefinition -XX:HotswapAgent=fatjar --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED"
+    ports:
+      - "${acs.port}:8080"
+      - "${acs.debug.port}:8888"
+    volumes:
+      - my-acs-volume:/usr/local/tomcat/alf_data
+      - ../../../my-platform/target/classes:/platform
+      - ../../../my-integration-tests/target/test-classes:/integration-tests
+    depends_on:
+      - my-postgres
+    command: ["catalina.sh", "run"]

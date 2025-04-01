@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>my-platform</artifactId>
+    <name>Alfresco Platform/Repository JAR Module</name>
+    <description>Platform/Repo JAR Module (to be included in the alfresco.war) - part of AIO - SDK 4.8</description>
+    <packaging>jar</packaging>
+    
+    <!-- ... -->
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <!-- Performs hotswap after packaging by using mvn clean package exec:exec@hotswap -->
+                    <execution>
+                        <id>hotswap</id>
+                        <configuration>
+                            <executable>docker</executable>
+                            <arguments>
+                                <argument>exec</argument>
+                                <argument>-u</argument>
+                                <argument>0</argument>
+                                <argument>${hotswap.container.name}</argument>
+                                <argument>/hotswap.sh</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- ... -->
+
+        </plugins>
+    </build>
+</project>

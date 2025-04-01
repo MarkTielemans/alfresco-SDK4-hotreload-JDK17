@@ -1,0 +1,9 @@
+<Context>
+    <Resources>
+        <!-- This file will register an extra classpath folder for the Alfresco Platform webapp -->
+        <!-- The Dockerfile will place it in /usr/local/tomcat/conf/Catalina/localhost/alfresco.xml -->
+        <PreResources className="org.apache.catalina.webresources.DirResourceSet"
+                        base="${catalina.base}/ext_classpath"
+                        webAppMount="/WEB-INF/classes"/>
+    </Resources>
+</Context>
